@@ -17,7 +17,7 @@ public class Main {
         sendInfo("软件作者：" + BasicInfo.author);
         sendInfo("热门项目：");
         sendInfo("Bilibili world 2024 : 85939");
-        sendInfo("Bilibili micro link 2024 : 85938");
+        sendInfo("Bilibili macro link 2024 : 85938");
         sendInfo("请输入你要监听的漫展ID：");
         BasicInfo.ID = readInput();
         run();
