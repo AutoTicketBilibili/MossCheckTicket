@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: MossCheckTicket
+Implementation-Version: MossCheckTicket
+Implementation-Vendor: MossCG
+Main-Class: org.mossmc.mosscg.MossCheckTicket.Main
