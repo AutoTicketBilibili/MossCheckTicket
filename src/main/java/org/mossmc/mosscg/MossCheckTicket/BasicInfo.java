@@ -1,7 +1,7 @@
 package org.mossmc.mosscg.MossCheckTicket;
 
 public class BasicInfo {
-    public static String version = "V1.0.0.0.0000";
+    public static String version = "V1.1.0.0.1103";
     public static String author = "MossCG";
 
     public static String infoTarget() {

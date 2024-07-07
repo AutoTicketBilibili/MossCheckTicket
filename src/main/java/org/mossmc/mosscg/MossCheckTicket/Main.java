@@ -11,10 +11,13 @@ import static org.mossmc.mosscg.MossCheckTicket.Logger.sendInfo;
 public class Main {
     public static void main(String[] args) {
         //既然你都看到这里了，那就浅说两句吧
-        //倒卖我倒是无所谓，别改作者就行，版本号随便改
+        //拿去修改别改作者就行，版本号随便改
         sendInfo("欢迎使用MossCheckTicket抢票监听插件~");
         sendInfo("软件版本：" + BasicInfo.version);
         sendInfo("软件作者：" + BasicInfo.author);
+        sendInfo("热门项目：");
+        sendInfo("Bilibili world 2024 : 85939");
+        sendInfo("Bilibili micro link 2024 : 85938");
         sendInfo("请输入你要监听的漫展ID：");
         BasicInfo.ID = readInput();
         run();
