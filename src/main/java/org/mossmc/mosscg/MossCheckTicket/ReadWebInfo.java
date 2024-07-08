@@ -3,6 +3,8 @@ package org.mossmc.mosscg.MossCheckTicket;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -10,6 +12,7 @@ import static org.mossmc.mosscg.MossCheckTicket.Logger.sendInfo;
 
 public class ReadWebInfo {
     public static String lastStatus = "未知";
+    public static boolean lastCheck = false;
     public static void readData(String data) {
         JSONObject fullData = JSONObject.parseObject(data);
         JSONObject showData = fullData.getJSONObject("data");
@@ -40,6 +43,7 @@ public class ReadWebInfo {
             sendInfo("---------------------------------------------"+randomSpilt);
             sendInfo("|                  =余票类型=                  ");
 
+            List<String> tickets = new ArrayList<>();
             ticketData.forEach((date) -> {
                 JSONObject dateData = JSONObject.parseObject(date.toString());
                 if (dateData.getBoolean("clickable")) {
@@ -47,7 +51,9 @@ public class ReadWebInfo {
                     typeArray.forEach((type) -> {
                         JSONObject typeData = JSONObject.parseObject(type.toString());
                         if (typeData.getBoolean("clickable")) {
-                            sendInfo("|           " + dateData.getString("name") + " " + typeData.getString("desc"));
+                            String name = "|           " + dateData.getString("name") + " " + typeData.getString("desc");
+                            sendInfo(name);
+                            tickets.add(name);
                         }
                     });
                 }
@@ -61,6 +67,14 @@ public class ReadWebInfo {
             sendInfo("|                                            ");
             sendInfo("---------------------------------------------"+randomSpilt);
             sendInfo("累计发现余票次数："+BasicInfo.hasTicketCount);
+
+            if (!lastCheck) {
+                lastCheck = true;
+                MailSend.sendMail(tickets);
+            }
+        } else {
+            lastCheck = false;
+
         }
     }
 
