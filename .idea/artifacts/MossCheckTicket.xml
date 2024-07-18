@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/MossCheckTicket</output-path>
     <root id="archive" name="MossCheckTicket.jar">
       <element id="module-output" name="MossChecklTicket" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/alibaba/fastjson/1.2.78/fastjson-1.2.78.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/depend/MossLib.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
