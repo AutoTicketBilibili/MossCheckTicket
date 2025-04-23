@@ -2,8 +2,11 @@
   <artifact type="jar" build-on-make="true" name="MossCheckTicket">
     <output-path>$PROJECT_DIR$/out/artifacts/MossCheckTicket</output-path>
     <root id="archive" name="MossCheckTicket.jar">
-      <element id="module-output" name="MossChecklTicket" />
       <element id="extracted-dir" path="$PROJECT_DIR$/depend/MossLib.jar" path-in-jar="/" />
+      <element id="module-output" name="MossCheckTicket" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+      </element>
     </root>
   </artifact>
 </component>

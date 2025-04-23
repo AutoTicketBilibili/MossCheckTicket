@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mossmc.mosscg</groupId>
-    <artifactId>MossChecklTicket</artifactId>
+    <artifactId>MossCheckTicket</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

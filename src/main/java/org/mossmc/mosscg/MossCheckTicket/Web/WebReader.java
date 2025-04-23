@@ -21,6 +21,10 @@ public class WebReader {
         }
 
         String ticketStatus = showData.getString("sale_flag");
+        if (ticketStatus == null) {
+            BasicInfo.logger.sendWarn("票务数据异常：空状态！");
+            return;
+        }
         checkTicketStatus(ticketStatus);
 
         JSONArray ticketData = showData.getJSONArray("screen_list");
