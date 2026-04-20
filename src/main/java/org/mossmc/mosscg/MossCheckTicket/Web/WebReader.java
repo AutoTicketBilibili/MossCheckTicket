@@ -25,7 +25,7 @@ public class WebReader {
             BasicInfo.logger.sendWarn("票务数据异常：空状态！");
             return;
         }
-        checkTicketStatus(ticketStatus);
+        checkTicketStatus(showData.getString("name"),ticketStatus);
 
         JSONArray ticketData = showData.getJSONArray("screen_list");
         AtomicBoolean hasTicket = new AtomicBoolean(false);
@@ -72,14 +72,14 @@ public class WebReader {
 
             if (!BasicInfo.lastCheck) {
                 BasicInfo.lastCheck = true;
-                MailSend.sendMail(tickets);
+                MailSend.sendTicketMail(tickets);
             }
         } else {
             BasicInfo.lastCheck = false;
         }
     }
 
-    public static void checkTicketStatus(String status) {
+    public static void checkTicketStatus(String show,String status) {
         if (BasicInfo.lastStatus.equals(status)) return;
         String randomSpilt = getRandomSpilt();
         BasicInfo.logger.sendInfo("---------------------------------------------"+randomSpilt);
@@ -94,6 +94,9 @@ public class WebReader {
             case "已售罄":
                 BasicInfo.logger.sendInfo("     这种情况代表关闭了票仓，B站正在屯票ing......");
                 break;
+            case "已停售":
+                BasicInfo.logger.sendInfo("     不卖辣！");
+                break;
             case "已结束":
                 BasicInfo.logger.sendInfo("     这种情况代表漫展已经结束啦~");
                 break;
@@ -101,6 +104,7 @@ public class WebReader {
                 break;
         }
         BasicInfo.logger.sendInfo("---------------------------------------------"+randomSpilt);
+        MailSend.sendStatusMail(show,BasicInfo.lastStatus,status);
         BasicInfo.lastStatus = status;
     }
 
