@@ -13,6 +13,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class MailSend {
+    public static long lastSendStatus = 0L;
+
+
     public static void sendTicketMail(List<String> types) {
         try {
             if (!BasicInfo.config.getBoolean("enableMail")) return;
@@ -29,6 +32,10 @@ public class MailSend {
     public static void sendStatusMail(String show,String old,String last) {
         try {
             if (!BasicInfo.config.getBoolean("enableMail")) return;
+            if ((System.currentTimeMillis()-lastSendStatus) < 10000L) {
+                BasicInfo.logger.sendInfo("未到冷却时间，不重复发送邮件！");
+                return;
+            }
 
             StringBuilder builder = new StringBuilder("票务状态更新了喵：<br>");
             builder.append("展演：").append(show).append("<br>");
@@ -36,6 +43,7 @@ public class MailSend {
             builder.append("新状态：").append(last).append("<br>");
 
             sendMail("MCT票务状态提醒", builder.toString());
+            lastSendStatus = System.currentTimeMillis();
         } catch (Exception e) {
             BasicInfo.logger.sendException(e);
         }
