@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mossmc.mosscg</groupId>
+    <groupId>org.mossmc</groupId>
     <artifactId>MossCheckTicket</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -12,6 +12,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <main.class>org.mossmc.mosscg.MossCheckTicket.Main</main.class>
     </properties>
 
     <dependencies>
@@ -23,4 +24,80 @@
             <systemPath>${project.basedir}/depend/MossLib.jar</systemPath>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>MossCheckTicket</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-deps</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                            <excludeScope>system</excludeScope>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>fat-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete dir="${project.build.directory}/fatjar"/>
+                                <mkdir dir="${project.build.directory}/fatjar"/>
+                                <unzip src="${project.basedir}/depend/MossLib.jar"
+                                       dest="${project.build.directory}/fatjar"/>
+                                <mkdir dir="${project.build.directory}/lib"/>
+                                <copy todir="${project.build.directory}/fatjar" overwrite="true">
+                                    <fileset dir="${project.build.outputDirectory}"/>
+                                </copy>
+                                <delete file="${project.build.directory}/fatjar/META-INF/MANIFEST.MF" quiet="true"/>
+                                <delete quiet="true">
+                                    <fileset dir="${project.build.directory}/fatjar/META-INF">
+                                        <include name="*.SF"/>
+                                        <include name="*.DSA"/>
+                                        <include name="*.RSA"/>
+                                        <include name="INDEX.LIST"/>
+                                    </fileset>
+                                </delete>
+                                <jar destfile="${project.build.directory}/${project.build.finalName}.jar"
+                                     basedir="${project.build.directory}/fatjar">
+                                    <manifest>
+                                        <attribute name="Main-Class" value="${main.class}"/>
+                                    </manifest>
+                                </jar>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <classifier>thin</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
